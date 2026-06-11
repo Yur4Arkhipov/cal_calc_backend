@@ -4,3 +4,4 @@ ktor:
   application:
     modules:
       - com.jacqulin.RoutingKt.configureRouting
+      - com.jacqulin.SerializationKt.configureSerialization
