@@ -3,13 +3,34 @@ kotlin = "2.3.21"
 logback = "1.5.34"
 kotlinSerialization = "2.3.0"
 kotlinxSerializationJson = "1.9.0"
+koin = "4.2.0"
+ktor = "3.2.2"
+#exposed-version = "1.0.0-beta-5"
+#h2-version = "2.3.232"
+#postgres-version = "42.7.7"
 
 [libraries]
+# logback
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+# koin
+koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 
 # Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
+#exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed-version" }
+#exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed-version" }
+#exposed-migration = { group = "org.jetbrains.exposed", name = "exposed-migration", version.ref = "exposed-version" }
+#exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed-version" }
+#exposed-r2dbc = { module = "org.jetbrains.exposed:exposed-r2dbc", version.ref = "exposed-version" }
+#hikari-core = "com.zaxxer:HikariCP:5.1.0"
+#h2 = { module = "com.h2database:h2", version.ref = "h2-version" }
+#postgresql = { module = "org.postgresql:postgresql", version.ref = "postgres-version" }
+#ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor-version" } maybe del
+#kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
+
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }

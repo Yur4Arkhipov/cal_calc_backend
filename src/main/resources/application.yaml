@@ -3,5 +3,8 @@ ktor:
     port: 8080
   application:
     modules:
-      - com.jacqulin.RoutingKt.configureRouting
-      - com.jacqulin.SerializationKt.configureSerialization
+      - com.jacqulin.ApplicationKt.module
+
+yandex:
+  model: ${YANDEX_MODEL}
+  apiKey: ${YANDEX_API_KEY}
