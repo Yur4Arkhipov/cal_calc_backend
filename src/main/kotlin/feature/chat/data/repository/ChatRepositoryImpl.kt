@@ -1,6 +1,6 @@
 package com.jacqulin.feature.chat.data.repository
 
-import com.jacqulin.client.ai.AiClient
+import com.jacqulin.client.domain.AiClient
 import com.jacqulin.feature.chat.domain.repository.ChatRepository
 
 class ChatRepositoryImpl(
@@ -8,6 +8,6 @@ class ChatRepositoryImpl(
 ) : ChatRepository {
 
     override suspend fun ask(message: String): String {
-        return aiClient.sendMessage(message)
+        return aiClient.analyzeNutrition(message)
     }
 }

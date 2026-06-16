@@ -1,5 +1,6 @@
 package com.jacqulin.client.ai
 
+import com.jacqulin.client.domain.AiClient
 import com.jacqulin.client.dto.*
 import com.jacqulin.config.AiConfig
 import io.ktor.client.*
@@ -14,7 +15,7 @@ class YandexAiClient(
     private val model = config.model
     private val apiKey = config.apiKey
 
-    override suspend fun sendMessage(text: String): String {
+    override suspend fun analyzeNutrition(text: String): String {
         val response: YandexChatResponse = client.post("https://ai.api.cloud.yandex.net/v1/chat/completions") {
             header(
                 "Authorization",

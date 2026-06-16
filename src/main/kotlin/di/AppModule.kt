@@ -1,6 +1,6 @@
 package com.jacqulin.di
 
-import com.jacqulin.client.ai.AiClient
+import com.jacqulin.client.domain.AiClient
 import com.jacqulin.client.ai.YandexAiClient
 import com.jacqulin.config.AiConfig
 import com.jacqulin.feature.chat.data.repository.ChatRepositoryImpl
