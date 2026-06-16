@@ -37,6 +37,9 @@ dependencies {
     // Koin
     implementation(libs.koin.ktor)
 
+    // Status pages
+    implementation(ktorLibs.server.statusPages)
+
 //    implementation(libs.exposed.core)
 //    implementation(libs.exposed.dao)
 //    implementation(libs.exposed.sql)

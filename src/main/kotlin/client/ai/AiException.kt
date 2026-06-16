@@ -1,10 +1,20 @@
 package com.jacqulin.client.ai
 
-sealed class AiException(
-    message: String
-) : Exception(message)
+sealed class AppException(
+    message: String,
+    cause: Throwable? = null
+) : RuntimeException(message, cause)
 
-class InvalidApiKeyException : AiException("Invalid API key")
-class RateLimitException : AiException("Rate limit exceeded")
-class AiServerException : AiException("AI server error")
-class InvalidAiResponseException : AiException("AI returned invalid response")
+class AiUnavailableException(
+    cause: Throwable? = null
+) : AppException(
+    message = "AI service unavailable",
+    cause = cause
+)
+
+class InvalidAiResponseException(
+    cause: Throwable? = null
+) : AppException(
+    message = "AI returned invalid response",
+    cause = cause
+)
