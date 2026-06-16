@@ -1,7 +1,9 @@
 package com.jacqulin.plugins
 
 import com.jacqulin.client.ai.AiUnavailableException
+import com.jacqulin.client.ai.DailyLimitExceededException
 import com.jacqulin.client.ai.InvalidAiResponseException
+import com.jacqulin.client.ai.MissingDeviceIdException
 import com.jacqulin.dto.ErrorResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -33,6 +35,20 @@ fun Application.configureStatusPages() {
             call.respond(
                 HttpStatusCode.InternalServerError,
                 ErrorResponse(message = "Internal server error")
+            )
+        }
+
+        exception<DailyLimitExceededException> { call, _ ->
+            call.respond(
+                HttpStatusCode.TooManyRequests,
+                ErrorResponse(message = "Daily AI limit exceeded")
+            )
+        }
+
+        exception<MissingDeviceIdException> { call, cause ->
+            call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse(message = cause.message ?: "Device ID is required")
             )
         }
     }

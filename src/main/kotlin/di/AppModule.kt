@@ -8,6 +8,10 @@ import com.jacqulin.feature.chat.domain.repository.NutritionRepository
 import com.jacqulin.feature.chat.domain.usecase.AnalyzeImageUseCase
 import com.jacqulin.feature.chat.domain.usecase.AnalyzeTextUseCase
 import com.jacqulin.feature.chat.domain.usecase.RefineMealUseCase
+import com.jacqulin.feature.usage.data.repository.UsageRepositoryImpl
+import com.jacqulin.feature.usage.domain.repository.UsageRepository
+import com.jacqulin.feature.usage.domain.usecase.CheckUsageLimitUseCase
+import com.jacqulin.feature.usage.domain.usecase.IncrementUsageUseCase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -45,6 +49,10 @@ fun appModule(
         )
     }
 
+    single<UsageRepository> {
+        UsageRepositoryImpl()
+    }
+
     factory {
         AnalyzeTextUseCase(
             repository = get()
@@ -59,6 +67,18 @@ fun appModule(
 
     factory {
         RefineMealUseCase(
+            repository = get()
+        )
+    }
+
+    factory {
+        CheckUsageLimitUseCase(
+            repository = get()
+        )
+    }
+
+    factory {
+        IncrementUsageUseCase(
             repository = get()
         )
     }

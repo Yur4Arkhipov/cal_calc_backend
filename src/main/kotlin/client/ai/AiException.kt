@@ -18,3 +18,7 @@ class InvalidAiResponseException(
     message = "AI returned invalid response",
     cause = cause
 )
+
+class DailyLimitExceededException : AppException("Daily limit exceeded")
+
+class MissingDeviceIdException : AppException(message = "Device ID header is missing")

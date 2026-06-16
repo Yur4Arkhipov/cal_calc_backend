@@ -1,6 +1,7 @@
 package com.jacqulin
 
 import com.jacqulin.di.appModule
+import com.jacqulin.feature.usage.data.db.DatabaseFactory
 import com.jacqulin.plugins.configureRouting
 import com.jacqulin.plugins.configureSerialization
 import com.jacqulin.plugins.configureStatusPages
@@ -13,6 +14,8 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+
+    DatabaseFactory.init(environment.config)
 
     install(Koin) {
         modules(

@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: nutrition-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: nutrition
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
