@@ -3,9 +3,10 @@ package com.jacqulin.di
 import com.jacqulin.client.domain.AiClient
 import com.jacqulin.client.ai.YandexAiClient
 import com.jacqulin.config.AiConfig
-import com.jacqulin.feature.chat.data.repository.ChatRepositoryImpl
-import com.jacqulin.feature.chat.domain.repository.ChatRepository
-import com.jacqulin.feature.chat.domain.usecase.SendMessageUseCase
+import com.jacqulin.feature.chat.data.repository.NutritionRepositoryImpl
+import com.jacqulin.feature.chat.domain.repository.NutritionRepository
+import com.jacqulin.feature.chat.domain.usecase.AnalyzeImageUseCase
+import com.jacqulin.feature.chat.domain.usecase.AnalyzeTextUseCase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -37,14 +38,20 @@ fun appModule(
         )
     }
 
-    single<ChatRepository> {
-        ChatRepositoryImpl(
+    single<NutritionRepository> {
+        NutritionRepositoryImpl(
             aiClient = get()
         )
     }
 
     factory {
-        SendMessageUseCase(
+        AnalyzeTextUseCase(
+            repository = get()
+        )
+    }
+
+    factory {
+        AnalyzeImageUseCase(
             repository = get()
         )
     }

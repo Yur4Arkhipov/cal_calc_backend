@@ -1,5 +1,6 @@
 package com.jacqulin.client.domain
 
 interface AiClient {
-    suspend fun analyzeNutrition(text: String): String
+    suspend fun analyzeText(text: String): String
+    suspend fun analyzeImage(strBase64: String): String
 }

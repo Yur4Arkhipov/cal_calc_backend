@@ -15,7 +15,7 @@ class YandexAiClient(
     private val model = config.model
     private val apiKey = config.apiKey
 
-    override suspend fun analyzeNutrition(text: String): String {
+    override suspend fun analyzeText(text: String): String {
         val response: YandexChatResponse = client.post("https://ai.api.cloud.yandex.net/v1/chat/completions") {
             header(
                 "Authorization",
@@ -41,6 +41,58 @@ class YandexAiClient(
                                 YandexContent(
                                     type = "text",
                                     text = text
+                                )
+                            )
+                        )
+                    ),
+                    response_format = YandexResponseFormat(
+                        type = "json_schema",
+                        json_schema = YandexJsonSchema(
+                            name = "nutrition",
+                            schema = NutritionSchema.schema
+                        )
+                    )
+                )
+            )
+        }.body()
+
+        val content = response.choices
+            .firstOrNull()
+            ?.message
+            ?.content
+            ?: error("AI returned empty response")
+
+        return content
+    }
+
+    override suspend fun analyzeImage(strBase64: String): String {
+        val response: YandexChatResponse = client.post("https://ai.api.cloud.yandex.net/v1/chat/completions") {
+            header(
+                "Authorization",
+                "Api-Key $apiKey"
+            )
+            contentType(ContentType.Application.Json)
+            setBody(
+                YandexChatRequest(
+                    model = model,
+                    messages = listOf(
+                        YandexMessage(
+                            role = "system",
+                            content = listOf(
+                                YandexContent(
+                                    type = "text",
+                                    text = SystemInstructions.instructions
+                                )
+                            )
+                        ),
+                        YandexMessage(
+                            role = "user",
+                            content = listOf(
+                                YandexContent(
+                                    type = "image_url",
+                                    image_url = YandexImageUrl(
+                                        url = "data:image/jpeg;base64,$strBase64"
+                                    ),
                                 )
                             )
                         )

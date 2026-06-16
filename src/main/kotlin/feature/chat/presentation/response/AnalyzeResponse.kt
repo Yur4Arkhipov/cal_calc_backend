@@ -4,6 +4,6 @@ import com.jacqulin.domain.Nutrition
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ChatResponse(
+data class AnalyzeResponse(
     val response: Nutrition
 )
