@@ -6,8 +6,8 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 
-object NutritionSchema {
-    val schema = buildJsonObject {
+object Schema {
+    val nutritionSchema = buildJsonObject {
         put("type", "object")
         putJsonObject("properties") {
             putJsonObject("name") {

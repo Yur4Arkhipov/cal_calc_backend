@@ -3,8 +3,11 @@ package com.jacqulin.routing
 import com.jacqulin.domain.Nutrition
 import com.jacqulin.feature.chat.domain.usecase.AnalyzeImageUseCase
 import com.jacqulin.feature.chat.domain.usecase.AnalyzeTextUseCase
+import com.jacqulin.feature.chat.domain.usecase.RefineMealUseCase
 import com.jacqulin.feature.chat.presentation.request.AnalyzeImageRequest
 import com.jacqulin.feature.chat.presentation.request.AnalyzeTextRequest
+import com.jacqulin.feature.chat.presentation.request.RefineMealRequest
+import io.ktor.http.ContentType
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -14,6 +17,7 @@ import org.koin.ktor.ext.inject
 fun Route.nutritionRoutes() {
     val analyzeTextUseCase by inject<AnalyzeTextUseCase>()
     val analyzeImageUseCase by inject<AnalyzeImageUseCase>()
+    val refineMealUseCase by inject<RefineMealUseCase>()
 
     post("/analyze-text") {
         val request = call.receive<AnalyzeTextRequest>()
@@ -29,5 +33,19 @@ fun Route.nutritionRoutes() {
         val nutrition = Json.decodeFromString<Nutrition>(answer)
 
         call.respond(nutrition)
+    }
+
+    post("refine") {
+        val request = call.receive<RefineMealRequest>()
+
+        val answer = refineMealUseCase(
+            request.currentMeal,
+            request.userPrompt
+        )
+
+        call.respondText(
+            text = answer,
+            contentType = ContentType.Application.Json
+        )
     }
 }

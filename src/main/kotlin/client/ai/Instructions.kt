@@ -1,6 +1,6 @@
 package com.jacqulin.client.ai
 
-object SystemInstructions {
+object Instructions {
     val instructions = """
         Ты профессиональный диетолог и анализатор пищи по изображению.
         

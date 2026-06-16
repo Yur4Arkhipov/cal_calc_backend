@@ -7,6 +7,7 @@ import com.jacqulin.feature.chat.data.repository.NutritionRepositoryImpl
 import com.jacqulin.feature.chat.domain.repository.NutritionRepository
 import com.jacqulin.feature.chat.domain.usecase.AnalyzeImageUseCase
 import com.jacqulin.feature.chat.domain.usecase.AnalyzeTextUseCase
+import com.jacqulin.feature.chat.domain.usecase.RefineMealUseCase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -52,6 +53,12 @@ fun appModule(
 
     factory {
         AnalyzeImageUseCase(
+            repository = get()
+        )
+    }
+
+    factory {
+        RefineMealUseCase(
             repository = get()
         )
     }
