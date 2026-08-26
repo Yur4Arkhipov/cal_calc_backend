@@ -1,6 +1,5 @@
 package com.jacqulin.routing
 
-import com.jacqulin.client.ai.DailyLimitExceededException
 import com.jacqulin.client.ai.MissingDeviceIdException
 import com.jacqulin.domain.Nutrition
 import com.jacqulin.feature.chat.domain.usecase.AnalyzeImageUseCase
@@ -29,9 +28,7 @@ fun Route.nutritionRoutes() {
         val deviceId = call.request.headers["X-Device-Id"]
             ?: throw MissingDeviceIdException()
 
-        if (!checkUsageLimitUseCase(deviceId)) {
-            throw DailyLimitExceededException()
-        }
+        checkUsageLimitUseCase(deviceId)
 
         val request = call.receive<AnalyzeTextRequest>()
         val answer = analyzeTextUseCase(request.message)

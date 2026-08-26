@@ -12,12 +12,12 @@ import java.time.LocalDate
 class UsageRepositoryImpl : UsageRepository {
 
     override suspend fun getTodayCount(
-        deviceId: String
+        userId: Int
     ): Int = dbQuery {
         AiUsageTable
             .selectAll()
             .where {
-                (AiUsageTable.deviceId eq deviceId) and
+                (AiUsageTable.userId eq userId) and
                 (AiUsageTable.usageDate eq LocalDate.now())
             }
             .singleOrNull()
@@ -26,27 +26,27 @@ class UsageRepositoryImpl : UsageRepository {
     }
 
     override suspend fun incrementTodayCount(
-        deviceId: String
+        userId: Int
     ) {
         dbQuery {
             val today = LocalDate.now()
             val existing = AiUsageTable
                 .selectAll()
                 .where {
-                    (AiUsageTable.deviceId eq deviceId) and
-                            (AiUsageTable.usageDate eq today)
+                    (AiUsageTable.userId eq userId) and
+                    (AiUsageTable.usageDate eq today)
                 }
                 .singleOrNull()
             if (existing == null) {
                 AiUsageTable.insert {
-                    it[AiUsageTable.deviceId] = deviceId
+                    it[AiUsageTable.userId] = userId
                     it[usageDate] = today
                     it[requestCount] = 1
                 }
             } else {
                 AiUsageTable.update({
-                    (AiUsageTable.deviceId eq deviceId) and
-                            (AiUsageTable.usageDate eq today)
+                    (AiUsageTable.userId eq userId) and
+                    (AiUsageTable.usageDate eq today)
                 }) {
                     it[requestCount] =
                         existing[AiUsageTable.requestCount] + 1
