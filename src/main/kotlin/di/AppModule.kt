@@ -16,6 +16,7 @@ import com.jacqulin.feature.usage.domain.usecase.CheckUsageLimitUseCase
 import com.jacqulin.feature.usage.domain.usecase.IncrementUsageUseCase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.config.ApplicationConfig
@@ -34,6 +35,11 @@ fun appModule(
                         ignoreUnknownKeys = true
                     }
                 )
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60_000
+                connectTimeoutMillis = 30_000
+                socketTimeoutMillis = 60_000
             }
         }
     }

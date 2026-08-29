@@ -25,6 +25,7 @@ fun Route.nutritionRoutes() {
     val incrementUsageUseCase by inject<IncrementUsageUseCase>()
 
     post("/analyze-text") {
+        application.environment.log.info("ANALYZE-TEXT REQUEST RECEIVED")
         val deviceId = call.request.headers["X-Device-Id"]
             ?: throw MissingDeviceIdException()
 
@@ -40,20 +41,33 @@ fun Route.nutritionRoutes() {
     }
 
     post("/analyze-image") {
+        val deviceId = call.request.headers["X-Device-Id"]
+            ?: throw MissingDeviceIdException()
+
+        checkUsageLimitUseCase(deviceId)
+
         val request = call.receive<AnalyzeImageRequest>()
         val answer = analyzeImageUseCase(request.imgBase64)
         val nutrition = Json.decodeFromString<Nutrition>(answer)
+
+        incrementUsageUseCase(deviceId)
 
         call.respond(nutrition)
     }
 
     post("refine") {
-        val request = call.receive<RefineMealRequest>()
+        val deviceId = call.request.headers["X-Device-Id"]
+            ?: throw MissingDeviceIdException()
 
+        checkUsageLimitUseCase(deviceId)
+
+        val request = call.receive<RefineMealRequest>()
         val answer = refineMealUseCase(
             request.currentMeal,
             request.userPrompt
         )
+
+        incrementUsageUseCase(deviceId)
 
         call.respondText(
             text = answer,
