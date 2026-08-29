@@ -1,6 +1,17 @@
 ktor:
   deployment:
     port: 8080
+    host: 0.0.0.0
   application:
     modules:
-      - com.jacqulin.RoutingKt.configureRouting
+      - com.jacqulin.ApplicationKt.module
+
+yandex:
+  model: ${YANDEX_MODEL}
+  apiKey: ${YANDEX_API_KEY}
+
+database:
+  url: jdbc:postgresql://localhost:5432/calorieapp
+  driver: org.postgresql.Driver
+  user: postgres
+  password: postgres
